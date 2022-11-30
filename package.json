@@ -15,6 +15,7 @@
   "dependencies": {
     "@heroicons/vue": "^2.0.13",
     "@prisma/client": "^4.6.1",
+    "@tailwindcss/forms": "^0.5.3",
     "@vue-hero-icons/solid": "^1.7.2",
     "bcrypt": "^5.1.0",
     "h3": "^1.0.1",

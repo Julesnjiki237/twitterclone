@@ -1,8 +1,10 @@
 import { getUserByUsername } from "~~/server/db/users"
 import bcrypt from "bcrypt"
-import { generateTokens } from "~~/server/utils/jwt"
+import { sendError } from "h3"
+import { generateTokens, sendRefreshToken } from "~~/server/utils/jwt"
 import { userTransformer } from "~~/server/transformers/user"
 import { createRefreshToken } from "~~/server/db/refreshTokens"
+
 
 export default defineEventHandler( async(event) =>{
 
@@ -22,7 +24,7 @@ export default defineEventHandler( async(event) =>{
 
     if(!user){
         return sendError(event, createError({
-            statusCode: 400, statusMessage: "Invalid username ou password"
+            statusCode: 400, statusMessage: "Invalid username or password"
         }))
     }
 
@@ -32,7 +34,7 @@ export default defineEventHandler( async(event) =>{
 
     if(!doesThepasswordsMatch){
         return sendError(event, createError({
-            statusCode: 400, statusMessage: "Invalid username ou password"
+            statusCode: 400, statusMessage: "Invalid username or password"
         })) 
     }
     //generation des tokens
@@ -48,6 +50,7 @@ export default defineEventHandler( async(event) =>{
         })
 
         //On ajoute aussi http only cookie
+        sendRefreshToken(event, refreshToken)
 
 
     return {
